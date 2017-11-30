@@ -35,12 +35,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by Mark Xu on 17/3/11.
- * Linphone 管理器
+ * LinPhone 管理器
  */
 
 public class LinphoneManager implements LinphoneCoreListener {
-    private static final String TAG = "LinphoneManager";
+    private static final String TAG = "lichao";
     private static LinphoneManager instance;
     private Context mServiceContext;
     private LinphoneCore mLc;

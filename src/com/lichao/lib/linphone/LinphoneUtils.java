@@ -19,12 +19,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by Mark Xu on 17/3/13.
  * 语音通话工具类
  */
 
 public class LinphoneUtils {
-    private static final String TAG = "LinphoneUtils";
+    private static final String TAG = "lichao";
     private static volatile LinphoneUtils sLinphoneUtils;
     private LinphoneCore mLinphoneCore = null;
     private LinphoneChatRoom chatRoom;

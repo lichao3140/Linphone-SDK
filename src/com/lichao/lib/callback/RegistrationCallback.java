@@ -1,8 +1,7 @@
 package com.lichao.lib.callback;
 
 /**
- * Created by Mark Xu on 2017/9/21.
- * Site: http://xuchongyang.com
+ * 注册回调
  */
 
 public abstract class RegistrationCallback {

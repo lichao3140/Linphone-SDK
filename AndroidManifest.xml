@@ -8,8 +8,11 @@
         android:minSdkVersion="17"
         android:targetSdkVersion="19" />
     
+    <!--网络权限-->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!--电池权限-->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!--相机权限-->
     <uses-permission android:name="android.permission.CAMERA"/>
     <!--语音通话权限-->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>

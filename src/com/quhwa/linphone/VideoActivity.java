@@ -1,6 +1,6 @@
 package com.quhwa.linphone;
 
-import com.lichao.lib.EasyLinphone;
+import com.lichao.lib.QuhwaLinphone;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -35,7 +35,7 @@ public class VideoActivity extends Activity implements OnClickListener{
         IntentFilter intentFilter = new IntentFilter(RECEIVE_FINISH_VIDEO_ACTIVITY);
         mReceiver = new FinishVideoActivityReceiver();
         registerReceiver(mReceiver, intentFilter);
-        EasyLinphone.setAndroidVideoWindow(new SurfaceView[]{mRenderingView}, new SurfaceView[]{mPreviewView});
+        QuhwaLinphone.setAndroidVideoWindow(new SurfaceView[]{mRenderingView}, new SurfaceView[]{mPreviewView});
     }
 	
 	private void init() {
@@ -53,13 +53,13 @@ public class VideoActivity extends Activity implements OnClickListener{
 	@Override
     protected void onResume() {
         super.onResume();
-        EasyLinphone.onResume();
+        QuhwaLinphone.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        EasyLinphone.onPause();
+        QuhwaLinphone.onPause();
     }
 
     @Override
@@ -68,7 +68,7 @@ public class VideoActivity extends Activity implements OnClickListener{
         if (mReceiver != null) {
             unregisterReceiver(mReceiver);
         }
-        EasyLinphone.onDestroy();
+        QuhwaLinphone.onDestroy();
     }
 	
 	public class FinishVideoActivityReceiver extends BroadcastReceiver {
@@ -83,14 +83,14 @@ public class VideoActivity extends Activity implements OnClickListener{
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.video_hang:
-			EasyLinphone.hangUp();
+			QuhwaLinphone.hangUp();
 	        finish();
 			break;
 		case R.id.video_mute:
-			EasyLinphone.toggleMicro(!EasyLinphone.getLC().isMicMuted());
+			QuhwaLinphone.toggleMicro(!QuhwaLinphone.getLC().isMicMuted());
 			break;
 		case R.id.video_speaker:
-			EasyLinphone.toggleSpeaker(!EasyLinphone.getLC().isSpeakerEnabled());
+			QuhwaLinphone.toggleSpeaker(!QuhwaLinphone.getLC().isSpeakerEnabled());
 			break;
 		default:
 			break;

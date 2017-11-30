@@ -16,8 +16,10 @@ public final class R {
     public static final class id {
         public static final int accept_call=0x7f070008;
         public static final int audio_call=0x7f070005;
+        public static final int can_call_in=0x7f07000e;
         public static final int dial_num=0x7f070004;
         public static final int hang_up=0x7f070007;
+        public static final int no_call_in=0x7f07000d;
         public static final int open_lock=0x7f07000b;
         public static final int press_login=0x7f070003;
         public static final int sip_account=0x7f070000;
@@ -26,11 +28,11 @@ public final class R {
         public static final int toggle_mute=0x7f070009;
         public static final int toggle_speaker=0x7f07000a;
         public static final int video_call=0x7f070006;
-        public static final int video_hang=0x7f07000f;
-        public static final int video_mute=0x7f070010;
-        public static final int video_preview=0x7f07000e;
-        public static final int video_rendering=0x7f07000d;
-        public static final int video_speaker=0x7f070011;
+        public static final int video_hang=0x7f070011;
+        public static final int video_mute=0x7f070012;
+        public static final int video_preview=0x7f070010;
+        public static final int video_rendering=0x7f07000f;
+        public static final int video_speaker=0x7f070013;
         public static final int visite_pwd=0x7f07000c;
     }
     public static final class layout {

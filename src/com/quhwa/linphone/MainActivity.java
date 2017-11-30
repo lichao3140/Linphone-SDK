@@ -2,7 +2,7 @@ package com.quhwa.linphone;
 
 import org.linphone.core.LinphoneCall;
 
-import com.lichao.lib.EasyLinphone;
+import com.lichao.lib.QuhwaLinphone;
 import com.lichao.lib.callback.PhoneCallback;
 
 import android.app.Activity;
@@ -25,6 +25,8 @@ public class MainActivity extends Activity implements OnClickListener{
 	private Button mToggleMute;
 	private Button mOpenLock;
 	private Button mVisitePwd;
+	private Button mNoCallIn;
+	private Button mCanCallIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +35,12 @@ public class MainActivity extends Activity implements OnClickListener{
         
         init();
         
-        EasyLinphone.addCallback(null, new PhoneCallback() {
+        QuhwaLinphone.addCallback(null, new PhoneCallback() {
             @Override
             public void incomingCall(LinphoneCall linphoneCall) {
                 super.incomingCall(linphoneCall);
                 // 开启铃声免提
-                EasyLinphone.toggleSpeaker(true);
+                QuhwaLinphone.toggleSpeaker(true);
                 mCallIn.setVisibility(View.VISIBLE);
                 mHangUp.setVisibility(View.VISIBLE);
             }
@@ -53,9 +55,9 @@ public class MainActivity extends Activity implements OnClickListener{
             public void callConnected() {
                 super.callConnected();
                 // 视频通话默认免提，语音通话默认非免提
-                EasyLinphone.toggleSpeaker(EasyLinphone.getVideoEnabled());
+                QuhwaLinphone.toggleSpeaker(QuhwaLinphone.getVideoEnabled());
                 // 所有通话默认非静音
-                EasyLinphone.toggleMicro(false);
+                QuhwaLinphone.toggleMicro(false);
                 mCallIn.setVisibility(View.GONE);
                 mToggleSpeaker.setVisibility(View.VISIBLE);
                 mToggleMute.setVisibility(View.VISIBLE);
@@ -83,6 +85,8 @@ public class MainActivity extends Activity implements OnClickListener{
         mToggleMute = (Button) findViewById(R.id.toggle_mute);
         mOpenLock = (Button) findViewById(R.id.open_lock);
         mVisitePwd = (Button) findViewById(R.id.visite_pwd);
+        mNoCallIn = (Button) findViewById(R.id.no_call_in);
+        mCanCallIn = (Button) findViewById(R.id.can_call_in);
         
         mAudioCall.setOnClickListener(this);
         mVideoCall.setOnClickListener(this);
@@ -92,6 +96,8 @@ public class MainActivity extends Activity implements OnClickListener{
         mToggleMute.setOnClickListener(this);
         mOpenLock.setOnClickListener(this);
         mVisitePwd.setOnClickListener(this);
+        mNoCallIn.setOnClickListener(this);
+        mCanCallIn.setOnClickListener(this);
 	}
 
 	@Override
@@ -99,34 +105,42 @@ public class MainActivity extends Activity implements OnClickListener{
 		String dialNum = mDialNum.getText().toString();
 		switch (view.getId()) {
 		case R.id.audio_call:
-	        EasyLinphone.callTo(dialNum, false);
+	        QuhwaLinphone.callTo(dialNum, false);
 			break;
 		case R.id.video_call:
-	        EasyLinphone.callTo(dialNum, true);
+	        QuhwaLinphone.callTo(dialNum, true);
 	        startActivity(new Intent(MainActivity.this, VideoActivity.class));
 	        break;
 		case R.id.hang_up:
-			EasyLinphone.hangUp();
+			QuhwaLinphone.hangUp();
 			break;
 		case R.id.accept_call:
-			EasyLinphone.acceptCall();
-	        if (EasyLinphone.getVideoEnabled()) {
+			QuhwaLinphone.acceptCall();
+	        if (QuhwaLinphone.getVideoEnabled()) {
 	            startActivity(new Intent(MainActivity.this, VideoActivity.class));
 	        }
 			break;
 		case R.id.toggle_mute:
-			EasyLinphone.toggleMicro(!EasyLinphone.getLC().isMicMuted());
+			QuhwaLinphone.toggleMicro(!QuhwaLinphone.getLC().isMicMuted());
 			break;
 		case R.id.toggle_speaker:
-			EasyLinphone.toggleSpeaker(!EasyLinphone.getLC().isSpeakerEnabled());
+			QuhwaLinphone.toggleSpeaker(!QuhwaLinphone.getLC().isSpeakerEnabled());
 			break;
 		case R.id.open_lock:
 			String openText = "{\"cmd\":\"openlock\"}";
-			EasyLinphone.OpenLock(dialNum, openText);
+			QuhwaLinphone.SendMessage(dialNum, openText);
 			break;
 		case R.id.visite_pwd:
 			String vistText = "{\"visitorpw\":\"1234\",\"time\":\"900\",\"roomNo\":\"1010101010101\"}";
-			EasyLinphone.OpenLock(dialNum, vistText);
+			QuhwaLinphone.SendMessage(dialNum, vistText);
+			break;
+		case R.id.no_call_in:
+			String no_call_in_text = "{\"cmd\":\"openbancall\",\"account\":\"1051\"}";
+			QuhwaLinphone.SendMessage(dialNum, no_call_in_text);
+			break;
+		case R.id.can_call_in:
+			String can_call_in_text = "{\"cmd\":\"closebancall\",\"account\":\"1051\"}";
+			QuhwaLinphone.SendMessage(dialNum, can_call_in_text);
 			break;
 		default:
 			break;

@@ -1,6 +1,6 @@
 package com.quhwa.linphone;
 
-import com.lichao.lib.EasyLinphone;
+import com.lichao.lib.QuhwaLinphone;
 import com.lichao.lib.callback.RegistrationCallback;
 import com.lichao.lib.service.LinphoneService;
 import android.app.Activity;
@@ -37,12 +37,12 @@ public class LoginActivity extends Activity implements OnClickListener{
 	
 	private void init() {
 		if (!LinphoneService.isReady()) {
-            EasyLinphone.startService(this);
-            EasyLinphone.addCallback(new RegistrationCallback() {
+            QuhwaLinphone.startService(this);
+            QuhwaLinphone.addCallback(new RegistrationCallback() {
                 @Override
                 public void registrationOk() {
                     super.registrationOk();
-                    Log.e(TAG, "registrationOk: ");
+                    Log.e(TAG, "LoginActivity->registrationOk");
                     Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
                     goToMainActivity();
                 }
@@ -50,7 +50,7 @@ public class LoginActivity extends Activity implements OnClickListener{
                 @Override
                 public void registrationFailed() {
                     super.registrationFailed();
-                    Log.e(TAG, "registrationFailed: ");
+                    Log.e(TAG, "LoginActivity->registrationFailed");
                     Toast.makeText(LoginActivity.this, "登录失败！", Toast.LENGTH_SHORT).show();
                 }
             }, null);
@@ -66,10 +66,9 @@ public class LoginActivity extends Activity implements OnClickListener{
 			String account = mAccount.getText().toString();
 	        String password = mPassword.getText().toString();
 	        String serverIP = mServer.getText().toString();
-	        EasyLinphone.setAccount(account, password, serverIP);
-	        EasyLinphone.login();
+	        QuhwaLinphone.setAccount(account, password, serverIP);
+	        QuhwaLinphone.login();
 			break;
-
 		default:
 			break;
 		}

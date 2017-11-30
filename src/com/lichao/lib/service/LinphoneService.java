@@ -26,17 +26,14 @@ import org.linphone.core.LinphoneInfoMessage;
 import org.linphone.core.LinphoneProxyConfig;
 import org.linphone.core.PublishState;
 import org.linphone.core.SubscriptionState;
-
 import com.lichao.lib.callback.PhoneCallback;
 import com.lichao.lib.callback.RegistrationCallback;
 import com.lichao.lib.linphone.KeepAliveHandler;
 import com.lichao.lib.linphone.LinphoneManager;
-
 import java.nio.ByteBuffer;
 
 
 /**
- * Created by Mark Xu on 17/3/13.
  * LinphoneService
  */
 
@@ -46,7 +43,6 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
     private static LinphoneService instance;
     private static PhoneCallback sPhoneCallback;
     private static RegistrationCallback sRegistrationCallback;
-//    private PowerManager.WakeLock mWakeLock;
 
     public static boolean isReady() {
         return instance != null;
@@ -67,10 +63,6 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
         mKeepAlivePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         ((AlarmManager)this.getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() + 60000, 60000, mKeepAlivePendingIntent);
-
-//        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-//        mWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Linphone");
-//        mWakeLock.acquire();
     }
 
     @Override
@@ -80,10 +72,6 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
         removeAllCallback();
         LinphoneManager.getLc().destroy();
         LinphoneManager.destroy();
-//        if (mWakeLock != null) {
-//            mWakeLock.release();
-//            mWakeLock = null;
-//        }
         ((AlarmManager)this.getSystemService(Context.ALARM_SERVICE)).cancel(mKeepAlivePendingIntent);
     }
 

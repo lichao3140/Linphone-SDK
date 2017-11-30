@@ -107,4 +107,26 @@
             android:text="访客密码"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+        
+        <Button
+            android:id="@+id/no_call_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:text="打开防骚扰"/>
+
+        <Button
+            android:id="@+id/can_call_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="关闭防骚扰"/>
+    </LinearLayout>
 </LinearLayout>

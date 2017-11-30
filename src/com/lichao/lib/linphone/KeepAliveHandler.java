@@ -7,7 +7,6 @@ import android.util.Log;
 
 
 /**
- * Created by Mark Xu on 17/3/13.
  * KeepAliveHandler
  */
 

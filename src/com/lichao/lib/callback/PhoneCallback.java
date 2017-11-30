@@ -3,7 +3,6 @@ package com.lichao.lib.callback;
 import org.linphone.core.LinphoneCall;
 
 /**
- * Created by Mark Xu on 17/3/13.
  * 状态回调
  */
 

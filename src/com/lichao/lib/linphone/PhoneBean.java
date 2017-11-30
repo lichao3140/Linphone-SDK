@@ -1,14 +1,17 @@
 package com.lichao.lib.linphone;
 
 /**
- * Created by Mark Xu on 17/3/14.
  * sip 账号信息
  */
 
 public class PhoneBean {
+	/** 昵称  */
     private String displayName;
+    /** 用户名  */
     private String userName;
+    /** 服务器地址  */
     private String host;
+    /** 密码  */
     private String password;
 
     public String getDisplayName() {
