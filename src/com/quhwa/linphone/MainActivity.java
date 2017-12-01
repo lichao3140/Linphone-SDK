@@ -1,20 +1,29 @@
 package com.quhwa.linphone;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.linphone.core.LinphoneCall;
-
 import com.lichao.lib.QuhwaLinphone;
 import com.lichao.lib.callback.PhoneCallback;
+import com.lichao.lib.service.LinphoneService;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener{
 	private static final String TAG = "lichao";
+	private MessageTextReceive messageReceive;
+	private String messageForm;
+	private String messageInfo;
 	
 	private EditText mDialNum;
 	private Button mAudioCall;
@@ -73,6 +82,11 @@ public class MainActivity extends Activity implements OnClickListener{
                 mToggleSpeaker.setVisibility(View.GONE);
             }
         });
+        
+        messageReceive = new MessageTextReceive();
+        IntentFilter messageFilter=new IntentFilter();
+        messageFilter.addAction(LinphoneService.RECEIVE_MESSAGE_TO_ACTIVTY);
+        registerReceiver(messageReceive, messageFilter);
     }
 
 	private void init() {
@@ -146,5 +160,27 @@ public class MainActivity extends Activity implements OnClickListener{
 			break;
 		}
 	}
-    
+	
+	public class MessageTextReceive extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Bundle bundle=intent.getExtras();
+			messageForm = bundle.getString("messageFrom");
+			messageInfo = bundle.getString("messageInfo");			
+			android.util.Log.i(TAG, "MessageTextReceive:" +messageForm +" -->" + messageInfo);
+			try {
+				JSONObject json = new JSONObject(messageInfo);
+				String cmd = json.getString("cmd");
+				String result = json.getString("result");
+				if (cmd.equals("openlockack") && result.equals("ok")) {
+					Toast.makeText(context, "开锁成功", Toast.LENGTH_LONG).show();
+				} else if (cmd.equals("visitorack") && result.equals("ok")) {
+					Toast.makeText(context, "访客密码设置成功", Toast.LENGTH_LONG).show();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

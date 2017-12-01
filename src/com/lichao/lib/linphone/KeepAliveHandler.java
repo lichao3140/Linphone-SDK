@@ -11,7 +11,8 @@ import android.util.Log;
  */
 
 public class KeepAliveHandler extends BroadcastReceiver {
-    private static final String TAG = "KeepAliveHandler";
+    private static final String TAG = "lichao";
+    
     @Override
     public void onReceive(Context context, Intent intent) {
         if (LinphoneManager.getLcIfManagerNotDestroyOrNull() != null) {
@@ -20,7 +21,7 @@ public class KeepAliveHandler extends BroadcastReceiver {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                Log.e(TAG, "Cannot sleep for 2s");
+                Log.e(TAG, "KeepAliveHandler->Cannot sleep for 2s");
             }
         }
     }

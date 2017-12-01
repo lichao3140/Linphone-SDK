@@ -95,6 +95,5 @@ public class VideoActivity extends Activity implements OnClickListener{
 		default:
 			break;
 		}
-		
 	}
 }

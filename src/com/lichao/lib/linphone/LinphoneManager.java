@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
 import org.linphone.core.LinphoneAddress;
-import org.linphone.core.LinphoneAuthInfo;
 import org.linphone.core.LinphoneCall;
 import org.linphone.core.LinphoneCallStats;
 import org.linphone.core.LinphoneChatMessage;
@@ -25,9 +24,7 @@ import org.linphone.core.PublishState;
 import org.linphone.core.SubscriptionState;
 import org.linphone.core.ToneID;
 import org.linphone.mediastream.Log;
-
 import com.quhwa.linphone.R;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -35,7 +32,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * LinPhone 管理器
+ * LinPhone 管理器 接收回调
  */
 
 public class LinphoneManager implements LinphoneCoreListener {
@@ -153,9 +150,10 @@ public class LinphoneManager implements LinphoneCoreListener {
         mLc.setPlayFile(mPauseSoundFile);
         mLc.setChatDatabasePath(mChatDatabaseFile);
 //        mLc.setCallErrorTone(Reason.NotFound, mErrorToneFile);//设置呼叫错误播放的铃声
-
-        setBackCamAsDefault();
-
+        
+        //前置摄像头-1，后置摄像头-0
+        mLc.setVideoDevice(1);
+        
         int availableCores = Runtime.getRuntime().availableProcessors();
         Log.w(TAG, "MediaStreamer : " + availableCores + " cores detected and configured");
         mLc.setCpuCount(availableCores);
@@ -166,11 +164,9 @@ public class LinphoneManager implements LinphoneCoreListener {
         mLc.setNetworkReachable(true);
 
         //回声消除
-//        boolean isEchoCancellation = (boolean) SPUtils.get(mServiceContext, "echo_cancellation", true);
         mLc.enableEchoCancellation(true);
 
         //自适应码率控制
-//        boolean isAdaptiveRateControl = (boolean) SPUtils.get(mServiceContext, "adaptive_rate_control", true);
         mLc.enableAdaptiveRateControl(true);
 
         //audio 码率设置
@@ -196,31 +192,18 @@ public class LinphoneManager implements LinphoneCoreListener {
      * 设置音视频编码格式---.so手机支持的格式都设置可用
      */
     private void setCodecMime() {
+    	// 音频编码格式
         for (PayloadType payloadType : mLc.getAudioCodecs()) {
             try {
                 mLc.enablePayloadType(payloadType, true);
             } catch (LinphoneCoreException e) {
                 e.printStackTrace();
             }
-//            android.util.Log.e(TAG, "setCodecMime = " + payloadType.getMime() + " Rate " + payloadType.getRate() + " receviceFmtp " + payloadType.getRecvFmtp());
-//            if (payloadType.getMime().equals("PCMA") && payloadType.getRate() == 8000) {
-//                try {
-//                    android.util.Log.e(TAG, "setCodecMime: " + payloadType.getMime() + " " + payloadType.getRate());
-//                    mLc.enablePayloadType(payloadType, true);
-//                } catch (LinphoneCoreException e) {
-//                    android.util.Log.e(TAG, "setCodecMime: " + e);
-//                }
-//            } else {
-//                try {
-//                    mLc.enablePayloadType(payloadType, false);
-//                } catch (LinphoneCoreException e) {
-//                    e.printStackTrace();
-//                }
-//            }
         }
+        // 视频编码格式
         for (PayloadType payloadType : mLc.getVideoCodecs()) {
             try {
-                android.util.Log.e(TAG, "setCodecMime: mime: " + payloadType.getMime() + " rate: " + payloadType.getRate());
+                android.util.Log.e(TAG, "setCodecMime->mime: " + payloadType.getMime() + "->rate: " + payloadType.getRate());
                 mLc.enablePayloadType(payloadType, true);
             } catch (LinphoneCoreException e) {
                 e.printStackTrace();
@@ -240,8 +223,7 @@ public class LinphoneManager implements LinphoneCoreListener {
 
     private void setUserAgent() {
         try {
-            String versionName = mServiceContext.getPackageManager().getPackageInfo(mServiceContext.getPackageName(),
-                    0).versionName;
+            String versionName = mServiceContext.getPackageManager().getPackageInfo(mServiceContext.getPackageName(), 0).versionName;
             if (versionName == null) {
                 versionName = String.valueOf(mServiceContext.getPackageManager().getPackageInfo(mServiceContext.getPackageName(), 0).versionCode);
             }
@@ -275,11 +257,7 @@ public class LinphoneManager implements LinphoneCoreListener {
     public void authInfoRequested(LinphoneCore linphoneCore, String s, String s1, String s2) {
 
     }
-
-//    @Override
-//    public void authenticationRequested(LinphoneCore linphoneCore, LinphoneAuthInfo linphoneAuthInfo, LinphoneCore.AuthMethod authMethod) {
-//
-//    }
+  
 
     @Override
     public void callStatsUpdated(LinphoneCore linphoneCore, LinphoneCall linphoneCall, LinphoneCallStats linphoneCallStats) {
@@ -412,11 +390,7 @@ public class LinphoneManager implements LinphoneCoreListener {
 
     @Override
     public void messageReceived(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, LinphoneChatMessage linphoneChatMessage) {
-
-    }
-
-    public void messageReceivedUnableToDecrypted(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, LinphoneChatMessage linphoneChatMessage) {
-
+    	
     }
 
     @Override
@@ -434,16 +408,4 @@ public class LinphoneManager implements LinphoneCoreListener {
 
     }
 
-    private void setBackCamAsDefault() {
-//        int camId = 0;
-//        AndroidCameraConfiguration.AndroidCamera[] cameras = AndroidCameraConfiguration.retrieveCameras();
-//        for (AndroidCameraConfiguration.AndroidCamera androidCamera :
-//                cameras) {
-//            if (!androidCamera.frontFacing) {
-//                camId = androidCamera.id;
-//            }
-//        }
-//        android.util.Log.e(TAG, "setBackCamAsDefault: cameraId is " + camId);
-        mLc.setVideoDevice(0);
-    }
 }

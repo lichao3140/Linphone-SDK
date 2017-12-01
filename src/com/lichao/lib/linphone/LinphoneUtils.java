@@ -24,6 +24,7 @@ import java.io.InputStream;
 
 public class LinphoneUtils {
     private static final String TAG = "lichao";
+    
     private static volatile LinphoneUtils sLinphoneUtils;
     private LinphoneCore mLinphoneCore = null;
     private LinphoneChatRoom chatRoom;
@@ -101,7 +102,6 @@ public class LinphoneUtils {
     }
     
     public void sendTextMessage(PhoneBean bean, String messageToSend) {
-    	//String sipUri = "sip:1003@120.25.126.228";
     	LinphoneAddress lAddress = null;
     	try {
     		lAddress = mLinphoneCore.interpretUrl(bean.getUserName() + "@" + bean.getHost());  		

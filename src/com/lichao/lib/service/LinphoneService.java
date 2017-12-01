@@ -10,7 +10,6 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import org.linphone.core.LinphoneAddress;
-import org.linphone.core.LinphoneAuthInfo;
 import org.linphone.core.LinphoneCall;
 import org.linphone.core.LinphoneCallStats;
 import org.linphone.core.LinphoneChatMessage;
@@ -39,6 +38,8 @@ import java.nio.ByteBuffer;
 
 public class LinphoneService extends Service implements LinphoneCoreListener {
     private static final String TAG = "lichao";
+    public static final String RECEIVE_MESSAGE_TO_ACTIVTY = "receive_message_to_activity";
+    
     private PendingIntent mKeepAlivePendingIntent;
     private static LinphoneService instance;
     private static PhoneCallback sPhoneCallback;
@@ -161,43 +162,10 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
         }
     }
 
-    /**
-     * 呼叫指定频道
-     * @param channel 频道
-     */
-    private void callThroughMobile(String channel) {
-//        mChannel = channel;
-//        if (LinphoneManager.getLc().isIncall()) {
-//            LinphoneUtils.getInstance().hangUp();
-//            MediaUtils.stop();
-//        }
-//        SPUtils.save(this, "channel", mChannel);
-//        callNowChannel();
-    }
-
-    /**
-     * 呼叫当前所在频道
-     */
-    private void callNowChannel() {
-//        if (!LinphoneManager.getLc().isIncall()) {
-//            if (!mChannel.equals("")) {
-//                PhoneBean phone = new PhoneBean();
-//                phone.setUserName(mChannel);
-//                phone.setHost("115.159.84.73");
-//                LinphoneUtils.getInstance().startSingleCallingTo(phone);
-//            }
-//        }
-    }
-
     @Override
     public void authInfoRequested(LinphoneCore linphoneCore, String s, String s1, String s2) {
 
     }
-
-//    @Override
-//    public void authenticationRequested(LinphoneCore linphoneCore, LinphoneAuthInfo linphoneAuthInfo, LinphoneCore.AuthMethod authMethod) {
-//
-//    }
 
     @Override
     public void callStatsUpdated(LinphoneCore linphoneCore, LinphoneCall linphoneCall, LinphoneCallStats linphoneCallStats) {
@@ -325,7 +293,14 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
 
     @Override
     public void messageReceived(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, LinphoneChatMessage linphoneChatMessage) {
+    	LinphoneAddress from = linphoneChatMessage.getFrom();// 对方地址  	
+    	String textMessage = linphoneChatMessage.getText();// 消息内容
 
+    	Intent intent = new Intent();
+    	intent.putExtra("messageFrom", from.asStringUriOnly());
+    	intent.putExtra("messageInfo", textMessage);
+    	intent.setAction(RECEIVE_MESSAGE_TO_ACTIVTY);
+    	sendBroadcast(intent);
     }
 
     public void messageReceivedUnableToDecrypted(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, LinphoneChatMessage linphoneChatMessage) {
