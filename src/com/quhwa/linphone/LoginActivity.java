@@ -3,6 +3,8 @@ package com.quhwa.linphone;
 import com.lichao.lib.QuhwaLinphone;
 import com.lichao.lib.callback.RegistrationCallback;
 import com.lichao.lib.service.LinphoneService;
+import com.quhwa.linphone.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

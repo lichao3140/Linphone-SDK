@@ -1,6 +1,7 @@
 package com.quhwa.linphone;
 
 import com.lichao.lib.QuhwaLinphone;
+import com.quhwa.linphone.R;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

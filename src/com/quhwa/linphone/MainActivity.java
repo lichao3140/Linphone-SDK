@@ -6,6 +6,7 @@ import org.linphone.core.LinphoneCall;
 import com.lichao.lib.QuhwaLinphone;
 import com.lichao.lib.callback.PhoneCallback;
 import com.lichao.lib.service.LinphoneService;
+import com.quhwa.linphone.R;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

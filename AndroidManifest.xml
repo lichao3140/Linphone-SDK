@@ -29,7 +29,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LoginActivity"
+            android:name="com.quhwa.linphone.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,10 +37,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"> </activity>
-        <activity android:name=".VideoActivity"> </activity>
+        <activity android:name="com.quhwa.linphone.MainActivity"> </activity>
+        <activity android:name="com.quhwa.linphone.VideoActivity"> </activity>
         
-        <receiver android:name=".VideoActivity$FinishVideoActivityReceiver"/>
+        <receiver android:name="com.quhwa.linphone.VideoActivity$FinishVideoActivityReceiver"/>
         <service android:name="com.lichao.lib.service.LinphoneService"/>
     </application>
 

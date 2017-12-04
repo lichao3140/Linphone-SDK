@@ -1,8 +1,11 @@
 package com.lichao.lib.linphone;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.util.Log;
 import org.linphone.core.LinphoneAddress;
+import org.linphone.core.LinphoneAddress.TransportType;
 import org.linphone.core.LinphoneAuthInfo;
 import org.linphone.core.LinphoneCall;
 import org.linphone.core.LinphoneCallParams;
@@ -54,13 +57,18 @@ public class LinphoneUtils {
      * @throws LinphoneCoreException
      */
     public void registerUserAuth(String name, String password, String host) throws LinphoneCoreException {
-        Log.e(TAG, "registerUserAuth name = " + name);
-        Log.e(TAG, "registerUserAuth pw = " + password);
-        Log.e(TAG, "registerUserAuth host = " + host);
+        Log.i(TAG, "registerUserAuth name = " + name);
+        Log.i(TAG, "registerUserAuth pw = " + password);
+        Log.i(TAG, "registerUserAuth host = " + host);
         String identify = "sip:" + name + "@" + host;
         String proxy = "sip:" + host;
+        
         LinphoneAddress proxyAddr = LinphoneCoreFactory.instance().createLinphoneAddress(proxy);
         LinphoneAddress identifyAddr = LinphoneCoreFactory.instance().createLinphoneAddress(identify);
+        proxyAddr.setTransport(TransportType.LinphoneTransportUdp);
+        identifyAddr.setTransport(TransportType.LinphoneTransportUdp);
+        
+        
         LinphoneAuthInfo authInfo = LinphoneCoreFactory.instance().createAuthInfo(name, null, password,
                 null, null, host);
         LinphoneProxyConfig prxCfg = mLinphoneCore.createProxyConfig(identifyAddr.asString(),
@@ -71,6 +79,7 @@ public class LinphoneUtils {
         prxCfg.setQualityReportingCollector(null);
         prxCfg.setQualityReportingInterval(0);
         prxCfg.enableRegister(true);
+         
         mLinphoneCore.addProxyConfig(prxCfg);
         mLinphoneCore.addAuthInfo(authInfo);
         mLinphoneCore.setDefaultProxyConfig(prxCfg);

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
 import org.linphone.core.LinphoneAddress;
+import org.linphone.core.LinphoneAuthInfo;
 import org.linphone.core.LinphoneCall;
 import org.linphone.core.LinphoneCallStats;
 import org.linphone.core.LinphoneChatMessage;
@@ -155,12 +156,12 @@ public class LinphoneManager implements LinphoneCoreListener {
         mLc.setVideoDevice(1);
         
         int availableCores = Runtime.getRuntime().availableProcessors();
-        Log.w(TAG, "MediaStreamer : " + availableCores + " cores detected and configured");
+        Log.w(TAG, "LinphoneManager->initLibLinphone->MediaStreamer : " + availableCores + " cores detected and configured");
         mLc.setCpuCount(availableCores);
 
         int migrationResult = getLc().migrateToMultiTransport();
-        Log.d(TAG, "Migration to multi transport result = " + migrationResult);
-
+        android.util.Log.i(TAG, "LinphoneManager->initLibLinphone->migrationResult = " + migrationResult);
+        
         mLc.setNetworkReachable(true);
 
         //回声消除
@@ -183,9 +184,6 @@ public class LinphoneManager implements LinphoneCoreListener {
         // 设置编码格式
         setCodecMime();
 
-//        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-//        filter.addAction(Intent.ACTION_SCREEN_OFF);
-//        mServiceContext.registerReceiver(mKeepAliveReceiver, filter);
     }
 
     /**
