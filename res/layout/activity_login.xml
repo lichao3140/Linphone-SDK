@@ -11,26 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:hint="请输入账号"
-        android:text="1079"/>
-
-    <EditText
-        android:id="@+id/sip_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:hint="请输入密码"
-        android:text="1079"/>
-
-    <EditText
-        android:id="@+id/sip_server"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:hint="请输入服务器地址"
-        android:text="120.25.126.228"/>
+        android:hint="请输入手机号码"
+        android:text="15889750516"/>
 
     <Button
         android:id="@+id/press_login"

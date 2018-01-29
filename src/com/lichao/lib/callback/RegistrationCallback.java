@@ -1,9 +1,8 @@
 package com.lichao.lib.callback;
 
 /**
- * 注册回调
+ * ע��ص�
  */
-
 public abstract class RegistrationCallback {
     public void registrationNone() {}
 

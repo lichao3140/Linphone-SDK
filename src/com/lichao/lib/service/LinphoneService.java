@@ -294,8 +294,8 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
 
     @Override
     public void messageReceived(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, LinphoneChatMessage linphoneChatMessage) {
-    	LinphoneAddress from = linphoneChatMessage.getFrom();// 瀵规柟鍦板潃  	
-    	String textMessage = linphoneChatMessage.getText();// 娑堟伅鍐呭
+    	LinphoneAddress from = linphoneChatMessage.getFrom();// 对方地址  	
+    	String textMessage = linphoneChatMessage.getText();// 消息内容
 
     	Intent intent = new Intent();
     	intent.putExtra("messageFrom", from.asStringUriOnly());

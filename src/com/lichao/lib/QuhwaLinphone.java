@@ -1,38 +1,44 @@
 package com.lichao.lib;
 
+import java.io.IOException;
+import java.util.HashMap;
 import android.content.Context;
 import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.view.SurfaceView;
-
 import org.linphone.core.LinphoneCallParams;
 import org.linphone.core.LinphoneCore;
 import org.linphone.core.LinphoneCoreException;
+import org.linphone.mediastream.Log;
 import org.linphone.mediastream.video.AndroidVideoWindowImpl;
-
+import com.google.gson.Gson;
 import com.lichao.lib.callback.PhoneCallback;
 import com.lichao.lib.callback.RegistrationCallback;
 import com.lichao.lib.linphone.LinphoneManager;
 import com.lichao.lib.linphone.LinphoneUtils;
 import com.lichao.lib.linphone.PhoneBean;
+import com.lichao.lib.model.RegisterModel;
 import com.lichao.lib.service.LinphoneService;
-
+import com.lichao.lib.util.Constant;
+import com.okhttplib.HttpInfo;
+import com.okhttplib.OkHttpUtil;
+import com.okhttplib.callback.Callback;
 import static java.lang.Thread.sleep;
 
 /**
- * LinPhone SDkæ–¹æ³•å®ç°
+ * LinPhone SDk·½·¨ÊµÏÖ
  */
 
 public class QuhwaLinphone {
     private static ServiceWaitThread mServiceWaitThread;
     private static String mUsername, mPassword;
-    private static String mServerIP = "120.25.126.228";
+    private static String mServerIP = Constant.SIP_SERVER_IP;
     private static AndroidVideoWindowImpl mAndroidVideoWindow;
     private static SurfaceView mRenderingView, mPreviewView;
 
     /**
-     * å¼€å¯æœåŠ¡
-     * @param context ä¸Šä¸‹æ–‡
+     * ¿ªÆô·şÎñ
+     * @param context ÉÏÏÂÎÄ
      */
     public static void startService(Context context) {
         if (!LinphoneService.isReady()) {
@@ -41,12 +47,78 @@ public class QuhwaLinphone {
             context.startService(intent);
         }
     }
+    
+    public static void loginByPhone(String phone) {
+    	final HashMap<String, String> maps = new HashMap<String, String>();
+    	final String username = phone;
+    	final String password = "quhwapwd" + phone;
+    	maps.put("username", username);
+    	maps.put("password", password);
+    	OkHttpUtil.getDefault().doPostAsync(
+    			HttpInfo.Builder().setUrl(Constant.REG_SIP_URL).addParams(maps).build(), 
+    			new Callback() {
+					
+					@Override
+					public void onSuccess(HttpInfo info) throws IOException {
+						String result = info.getRetDetail();
+						RegisterModel registerModel = new Gson().fromJson(result, RegisterModel.class);
+						int code = registerModel.getCode();
+						if (code == 1) {
+							String sip = registerModel.getUserInfo().getSipid();
+							String pwd = registerModel.getUserInfo().getSipPasswd();
+							setAccount(sip, pwd, mServerIP);
+							Log.e("regiter result:" + "\ncode:" + code + "\nsip:" + sip + "\npwd:" + pwd);
+						} else if (code == 7) {
+							longSIP(username, password);
+						} else {
+							Log.e("regiter failure:" + result);
+						}
+					}
+					
+					@Override
+					public void onFailure(HttpInfo info) throws IOException {
+						String result = info.getRetDetail();
+						Log.e("connect failure:" + result);
+					}
+				});
+    }
+    
+    public static void longSIP(String username, String password) {
+    	final HashMap<String, String> maps = new HashMap<String, String>();
+    	maps.put("username", username);
+    	maps.put("password", password);
+    	OkHttpUtil.getDefault().doPostAsync(
+    			HttpInfo.Builder().setUrl(Constant.LOGIN_SIP_URL).addParams(maps).build(),
+    			new Callback() {
+					
+					@Override
+					public void onSuccess(HttpInfo info) throws IOException {
+						String result = info.getRetDetail();
+						RegisterModel registerModel = new Gson().fromJson(result, RegisterModel.class);
+						int code = registerModel.getCode();
+						if (code == 1) {
+							String sip = registerModel.getUserInfo().getSipid();
+							String pwd = registerModel.getUserInfo().getSipPasswd();
+							setAccount(sip, pwd, mServerIP);
+							Log.e("login result:" + "\ncode:" + code + "\nsip:" + sip + "\npwd:" + pwd);
+						} else {
+							Log.e("login failure:" + result);
+						}
+					}
+					
+					@Override
+					public void onFailure(HttpInfo info) throws IOException {
+						String result = info.getRetDetail();
+						Log.e("connect failure:" + result);
+					}
+				});
+    }
 
     /**
-     * è®¾ç½® sip è´¦æˆ·ä¿¡æ¯
-     * @param username sip è´¦æˆ·
-     * @param password å¯†ç 
-     * @param serverIP sip æœåŠ¡å™¨
+     * ÉèÖÃ sip ÕË»§ĞÅÏ¢
+     * @param username sip ÕË»§
+     * @param password ÃÜÂë
+     * @param serverIP sip ·şÎñÆ÷
      */
     public static void setAccount(String username, String password, String serverIP) {
         mUsername = username;
@@ -55,9 +127,9 @@ public class QuhwaLinphone {
     }
 
     /**
-     * æ·»åŠ æ³¨å†ŒçŠ¶æ€ã€é€šè¯çŠ¶æ€å›è°ƒ
-     * @param phoneCallback é€šè¯å›è°ƒ
-     * @param registrationCallback æ³¨å†ŒçŠ¶æ€å›è°ƒ
+     * Ìí¼Ó×¢²á×´Ì¬¡¢Í¨»°×´Ì¬»Øµ÷
+     * @param phoneCallback Í¨»°»Øµ÷
+     * @param registrationCallback ×¢²á×´Ì¬»Øµ÷
      */
     public static void addCallback(RegistrationCallback registrationCallback,
                                    PhoneCallback phoneCallback) {
@@ -71,7 +143,7 @@ public class QuhwaLinphone {
     }
 
     /**
-     * ç™»å½•åˆ° SIP æœåŠ¡å™¨
+     * µÇÂ¼µ½ SIP ·şÎñÆ÷
      */
     public static void login() {
         new Thread(new Runnable() {
@@ -90,8 +162,8 @@ public class QuhwaLinphone {
     }
 
     /**
-     * å‘¼å«æŒ‡å®šå·ç 
-     * @param num å‘¼å«å·ç 
+     * ºô½ĞÖ¸¶¨ºÅÂë
+     * @param num ºô½ĞºÅÂë
      */
     public static void callTo(String num, boolean isVideoCall) {
         if (!LinphoneService.isReady() || !LinphoneManager.isInstanceiated()) {
@@ -106,7 +178,7 @@ public class QuhwaLinphone {
     }
 
     /**
-     * æ¥å¬æ¥ç”µ
+     * ½ÓÌıÀ´µç
      */
     public static void acceptCall() {
         try {
@@ -117,32 +189,32 @@ public class QuhwaLinphone {
     }
 
     /**
-     * æŒ‚æ–­å½“å‰é€šè¯
+     * ¹Ò¶Ïµ±Ç°Í¨»°
      */
     public static void hangUp() {
         LinphoneUtils.getInstance().hangUp();
     }
 
     /**
-     * åˆ‡æ¢é™éŸ³
-     * @param isMicMuted æ˜¯å¦é™éŸ³
+     * ÇĞ»»¾²Òô
+     * @param isMicMuted ÊÇ·ñ¾²Òô
      */
     public static void toggleMicro(boolean isMicMuted) {
         LinphoneUtils.getInstance().toggleMicro(isMicMuted);
     }
 
     /**
-     * åˆ‡æ¢å…æ
-     * @param isSpeakerEnabled æ˜¯å¦å…æ
+     * ÇĞ»»ÃâÌá
+     * @param isSpeakerEnabled ÊÇ·ñÃâÌá
      */
     public static void toggleSpeaker(boolean isSpeakerEnabled) {
         LinphoneUtils.getInstance().toggleSpeaker(isSpeakerEnabled);
     }
     
     /**
-     * å‘é€æ–‡æœ¬æ¶ˆæ¯
-     * @param user æ¥æ”¶æ–¹ç”¨æˆ·å
-     * @param msg æ¶ˆæ¯å†…å®¹
+     * ·¢ËÍÎÄ±¾ÏûÏ¢
+     * @param user ½ÓÊÕ·½ÓÃ»§Ãû
+     * @param msg ÏûÏ¢ÄÚÈİ
      */
     public static void SendMessage(String user, String msg) {
     	 if (!LinphoneService.isReady() || !LinphoneManager.isInstanceiated()) {
@@ -182,13 +254,10 @@ public class QuhwaLinphone {
     }
 
     /**
-     * ç™»å½• SIP æœåŠ¡å™¨
+     * µÇÂ¼ SIP ·şÎñÆ÷
      */
     private static void loginToServer() {
         try {
-            if (mUsername == null || mPassword == null || mServerIP == null) {
-                throw new RuntimeException("The sip account is not configured.");
-            }
             LinphoneUtils.getInstance().registerUserAuth(mUsername, mPassword, mServerIP);
         } catch (LinphoneCoreException e) {
             e.printStackTrace();
@@ -201,9 +270,9 @@ public class QuhwaLinphone {
     }
 
     /**
-     * è®¾ç½® SurfaceView
-     * @param renderingView è¿œç¨‹ SurfaceView
-     * @param previewView æœ¬åœ° SurfaceView
+     * ÉèÖÃ SurfaceView
+     * @param renderingView Ô¶³Ì SurfaceView
+     * @param previewView ±¾µØ SurfaceView
      */
     public static void setAndroidVideoWindow(final SurfaceView[] renderingView, final SurfaceView[] previewView) {
         mRenderingView = renderingView[0];
@@ -303,7 +372,7 @@ public class QuhwaLinphone {
     }
 
     /**
-     * è·å– LinphoneCore
+     * »ñÈ¡ LinphoneCore
      * @return LinphoneCore
      */
     public static LinphoneCore getLC() {

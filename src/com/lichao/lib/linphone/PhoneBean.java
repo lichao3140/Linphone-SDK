@@ -1,17 +1,17 @@
 package com.lichao.lib.linphone;
 
 /**
- * sip è´¦å·ä¿¡æ¯
+ * sip ÕËºÅĞÅÏ¢
  */
 
 public class PhoneBean {
-	/** æ˜µç§°  */
+	/** êÇ³Æ  */
     private String displayName;
-    /** ç”¨æˆ·å  */
+    /** ÓÃ»§Ãû  */
     private String userName;
-    /** æœåŠ¡å™¨åœ°å€  */
+    /** ·şÎñÆ÷µØÖ·  */
     private String host;
-    /** å¯†ç   */
+    /** ÃÜÂë  */
     private String password;
 
     public String getDisplayName() {

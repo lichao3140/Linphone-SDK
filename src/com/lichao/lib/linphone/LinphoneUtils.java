@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * è¯­éŸ³é€šè¯å·¥å…·ç±»
+ * ÓïÒôÍ¨»°¹¤¾ßÀà
  */
 
 public class LinphoneUtils {
@@ -50,7 +50,7 @@ public class LinphoneUtils {
     }
 
     /**
-     * æ³¨å†Œåˆ°æœåŠ¡å™¨
+     * ×¢²áµ½·şÎñÆ÷
      * @param name
      * @param password
      * @param host
@@ -124,7 +124,7 @@ public class LinphoneUtils {
     }
 
     /**
-     * æŒ‚æ–­ç”µè¯
+     * ¹Ò¶Ïµç»°
      */
     public void hangUp() {
         LinphoneCall currentCall = mLinphoneCore.getCurrentCall();
@@ -138,7 +138,7 @@ public class LinphoneUtils {
     }
 
     /**
-     * æ˜¯å¦é™éŸ³
+     * ÊÇ·ñ¾²Òô
      * @param isMicMuted
      */
     public void toggleMicro(boolean isMicMuted) {
@@ -146,7 +146,7 @@ public class LinphoneUtils {
     }
 
     /**
-     * æ˜¯å¦å¤–æ”¾
+     * ÊÇ·ñÍâ·Å
      * @param isSpeakerEnabled
      */
      public void toggleSpeaker(boolean isSpeakerEnabled) {

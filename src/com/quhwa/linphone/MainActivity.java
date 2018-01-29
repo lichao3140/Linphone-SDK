@@ -49,7 +49,7 @@ public class MainActivity extends Activity implements OnClickListener{
             @Override
             public void incomingCall(LinphoneCall linphoneCall) {
                 super.incomingCall(linphoneCall);
-                // å¼€å¯é“ƒå£°å…æ
+                // ¿ªÆôÁåÉùÃâÌá
                 QuhwaLinphone.toggleSpeaker(true);
                 mCallIn.setVisibility(View.VISIBLE);
                 mHangUp.setVisibility(View.VISIBLE);
@@ -64,9 +64,9 @@ public class MainActivity extends Activity implements OnClickListener{
             @Override
             public void callConnected() {
                 super.callConnected();
-                // è§†é¢‘é€šè¯é»˜è®¤å…æï¼Œè¯­éŸ³é€šè¯é»˜è®¤éå…æ
+                // ÊÓÆµÍ¨»°Ä¬ÈÏÃâÌá£¬ÓïÒôÍ¨»°Ä¬ÈÏ·ÇÃâÌá
                 QuhwaLinphone.toggleSpeaker(QuhwaLinphone.getVideoEnabled());
-                // æ‰€æœ‰é€šè¯é»˜è®¤éé™éŸ³
+                // ËùÓĞÍ¨»°Ä¬ÈÏ·Ç¾²Òô
                 QuhwaLinphone.toggleMicro(false);
                 mCallIn.setVisibility(View.GONE);
                 mToggleSpeaker.setVisibility(View.VISIBLE);
@@ -175,9 +175,9 @@ public class MainActivity extends Activity implements OnClickListener{
 				String cmd = json.getString("cmd");
 				String result = json.getString("result");
 				if (cmd.equals("openlockack") && result.equals("ok")) {
-					Toast.makeText(context, "å¼€é”æˆåŠŸ", Toast.LENGTH_LONG).show();
+					Toast.makeText(context, "¿ªËø³É¹¦", Toast.LENGTH_LONG).show();
 				} else if (cmd.equals("visitorack") && result.equals("ok")) {
-					Toast.makeText(context, "è®¿å®¢å¯†ç è®¾ç½®æˆåŠŸ", Toast.LENGTH_LONG).show();
+					Toast.makeText(context, "·Ã¿ÍÃÜÂëÉèÖÃ³É¹¦", Toast.LENGTH_LONG).show();
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();

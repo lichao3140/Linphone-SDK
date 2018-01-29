@@ -3,38 +3,38 @@ package com.lichao.lib.callback;
 import org.linphone.core.LinphoneCall;
 
 /**
- * çŠ¶æ€å›è°ƒ
+ * ×´Ì¬»Øµ÷
  */
 
 public abstract class PhoneCallback {
     /**
-     * æ¥ç”µçŠ¶æ€
+     * À´µç×´Ì¬
      * @param linphoneCall
      */
     public void incomingCall(LinphoneCall linphoneCall) {}
 
     /**
-     * å‘¼å«åˆå§‹åŒ–
+     * ºô½Ğ³õÊ¼»¯
      */
     public void outgoingInit() {}
 
     /**
-     * ç”µè¯æ¥é€š
+     * µç»°½ÓÍ¨
      */
     public void callConnected() {}
 
     /**
-     * ç”µè¯æŒ‚æ–­
+     * µç»°¹Ò¶Ï
      */
     public void callEnd() {}
 
     /**
-     * é‡Šæ”¾é€šè¯
+     * ÊÍ·ÅÍ¨»°
      */
     public void callReleased() {}
 
     /**
-     * è¿æ¥å¤±è´¥
+     * Á¬½ÓÊ§°Ü
      */
     public void error() {}
 }

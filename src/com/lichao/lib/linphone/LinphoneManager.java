@@ -33,7 +33,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * LinPhone ç®¡ç†å™¨ æ¥æ”¶å›è°ƒ
+ * LinPhone ¹ÜÀíÆ÷ ½ÓÊÕ»Øµ÷
  */
 
 public class LinphoneManager implements LinphoneCoreListener {
@@ -150,9 +150,9 @@ public class LinphoneManager implements LinphoneCoreListener {
         mLc.setRootCA(mLinphoneRootCaFile);
         mLc.setPlayFile(mPauseSoundFile);
         mLc.setChatDatabasePath(mChatDatabaseFile);
-//        mLc.setCallErrorTone(Reason.NotFound, mErrorToneFile);//è®¾ç½®å‘¼å«é”™è¯¯æ’­æ”¾çš„é“ƒå£°
+//        mLc.setCallErrorTone(Reason.NotFound, mErrorToneFile);//ÉèÖÃºô½Ğ´íÎó²¥·ÅµÄÁåÉù
         
-        //å‰ç½®æ‘„åƒå¤´-1ï¼Œåç½®æ‘„åƒå¤´-0
+        //Ç°ÖÃÉãÏñÍ·-1£¬ºóÖÃÉãÏñÍ·-0
         mLc.setVideoDevice(1);
         
         int availableCores = Runtime.getRuntime().availableProcessors();
@@ -164,13 +164,13 @@ public class LinphoneManager implements LinphoneCoreListener {
         
         mLc.setNetworkReachable(true);
 
-        //å›å£°æ¶ˆé™¤
+        //»ØÉùÏû³ı
         mLc.enableEchoCancellation(true);
 
-        //è‡ªé€‚åº”ç ç‡æ§åˆ¶
+        //×ÔÊÊÓ¦ÂëÂÊ¿ØÖÆ
         mLc.enableAdaptiveRateControl(true);
 
-        //audio ç ç‡è®¾ç½®
+        //audio ÂëÂÊÉèÖÃ
         LinphoneUtils.getConfig(mServiceContext).setInt("audio", "codec_bitrate_limit", 36);
 
         mLc.setPreferredVideoSizeByName("720p");
@@ -181,16 +181,16 @@ public class LinphoneManager implements LinphoneCoreListener {
         mLc.setVideoPolicy(true, mLc.getVideoAutoAcceptPolicy());
         mLc.enableVideo(true, true);
 
-        // è®¾ç½®ç¼–ç æ ¼å¼
+        // ÉèÖÃ±àÂë¸ñÊ½
         setCodecMime();
 
     }
 
     /**
-     * è®¾ç½®éŸ³è§†é¢‘ç¼–ç æ ¼å¼---.soæ‰‹æœºæ”¯æŒçš„æ ¼å¼éƒ½è®¾ç½®å¯ç”¨
+     * ÉèÖÃÒôÊÓÆµ±àÂë¸ñÊ½---.soÊÖ»úÖ§³ÖµÄ¸ñÊ½¶¼ÉèÖÃ¿ÉÓÃ
      */
     private void setCodecMime() {
-    	// éŸ³é¢‘ç¼–ç æ ¼å¼
+    	// ÒôÆµ±àÂë¸ñÊ½
         for (PayloadType payloadType : mLc.getAudioCodecs()) {
             try {
                 mLc.enablePayloadType(payloadType, true);
@@ -198,7 +198,7 @@ public class LinphoneManager implements LinphoneCoreListener {
                 e.printStackTrace();
             }
         }
-        // è§†é¢‘ç¼–ç æ ¼å¼
+        // ÊÓÆµ±àÂë¸ñÊ½
         for (PayloadType payloadType : mLc.getVideoCodecs()) {
             try {
                 android.util.Log.e(TAG, "setCodecMime->mime: " + payloadType.getMime() + "->rate: " + payloadType.getRate());
