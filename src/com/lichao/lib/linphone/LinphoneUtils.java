@@ -1,7 +1,5 @@
 package com.lichao.lib.linphone;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.util.Log;
 import org.linphone.core.LinphoneAddress;

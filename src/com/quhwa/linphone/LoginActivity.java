@@ -62,7 +62,6 @@ public class LoginActivity extends Activity implements OnClickListener{
 		case R.id.press_login:
 			String account = mAccount.getText().toString();
 	        QuhwaLinphone.loginByPhone(account);
-	        QuhwaLinphone.login();
 			break;
 		default:
 			break;

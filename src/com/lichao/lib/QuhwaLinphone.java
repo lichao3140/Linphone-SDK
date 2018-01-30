@@ -67,9 +67,10 @@ public class QuhwaLinphone {
 							String sip = registerModel.getUserInfo().getSipid();
 							String pwd = registerModel.getUserInfo().getSipPasswd();
 							setAccount(sip, pwd, mServerIP);
+							login();
 							Log.e("regiter result:" + "\ncode:" + code + "\nsip:" + sip + "\npwd:" + pwd);
 						} else if (code == 7) {
-							longSIP(username, password);
+							loginSIP(username, password);
 						} else {
 							Log.e("regiter failure:" + result);
 						}
@@ -83,7 +84,7 @@ public class QuhwaLinphone {
 				});
     }
     
-    public static void longSIP(String username, String password) {
+    public static void loginSIP(String username, String password) {
     	final HashMap<String, String> maps = new HashMap<String, String>();
     	maps.put("username", username);
     	maps.put("password", password);
@@ -100,6 +101,7 @@ public class QuhwaLinphone {
 							String sip = registerModel.getUserInfo().getSipid();
 							String pwd = registerModel.getUserInfo().getSipPasswd();
 							setAccount(sip, pwd, mServerIP);
+							login();
 							Log.e("login result:" + "\ncode:" + code + "\nsip:" + sip + "\npwd:" + pwd);
 						} else {
 							Log.e("login failure:" + result);
